@@ -11,4 +11,3 @@ public class VvServerApplication {
 	} // main()
 
 } // VvServerApplication class
-

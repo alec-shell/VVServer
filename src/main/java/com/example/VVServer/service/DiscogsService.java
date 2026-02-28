@@ -1,5 +1,6 @@
 package com.example.VVServer.service;
 
+import com.example.VVServer.Exception.DiscogsAPIException;
 import com.example.VVServer.client.DiscogsClient;
 import com.github.scribejava.core.model.OAuth1AccessToken;
 import com.github.scribejava.core.model.Response;
@@ -19,23 +20,23 @@ public class DiscogsService {
 
     public String albumsSearch(String token, String secret, String album, String artist,
                                String year, String catNo, int page)
-            throws IOException, ExecutionException, InterruptedException {
+            throws IOException, ExecutionException, InterruptedException, DiscogsAPIException {
 
         Response response = discogsClient.searchQuery(new OAuth1AccessToken(token, secret),
                 album, artist, year, catNo, page
         );
 
         if (response.getCode() >= 400) {
-            return "Discogs API Error:" + response.getCode();
+            throw new DiscogsAPIException(response.getCode(), response.getMessage(), response.getBody());
         }
         return response.getBody();
     } // albumsSearch()
 
     public String pricingSearch(String token, String secret, int id)
-    throws IOException, ExecutionException, InterruptedException {
+            throws IOException, ExecutionException, InterruptedException, DiscogsAPIException {
         Response response = discogsClient.getPriceSuggestions(new OAuth1AccessToken(token, secret), id);
         if (response.getCode() >= 400) {
-            return "Discogs API Error:" + response.getCode();
+            throw new DiscogsAPIException(response.getCode(), response.getMessage(), response.getBody());
         }
         return response.getBody();
     } // pricingSearch()
