@@ -7,9 +7,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class VvServerApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(VvServerApplication.class, args);
-	}
+        SpringApplication.run(VvServerApplication.class, args);
+	} // main()
 
-    public static class HealthController {
-    }
-}
+} // VvServerApplication class
+
