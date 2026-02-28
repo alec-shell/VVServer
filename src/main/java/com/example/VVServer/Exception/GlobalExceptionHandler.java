@@ -42,4 +42,5 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(e.getCode())
                 .body(Map.of("error", e.getMessage()));
     } // handleDiscogs()
-}
+
+} // GlobalExceptionHandler class

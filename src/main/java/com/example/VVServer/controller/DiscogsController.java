@@ -1,12 +1,11 @@
 package com.example.VVServer.controller;
 
+import com.example.VVServer.DTO.PricingRequest;
+import com.example.VVServer.DTO.SearchRequest;
 import com.example.VVServer.Exception.DiscogsAPIException;
 import com.example.VVServer.service.DiscogsService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
@@ -21,33 +20,25 @@ public class DiscogsController {
         this.discogsService = discogsService;
     } // constructor
 
-    @GetMapping("/search")
-    public ResponseEntity<?> requestSearch(@RequestParam String token,
-                                        @RequestParam String secret,
-                                        @RequestParam String album,
-                                        @RequestParam String artist,
-                                        @RequestParam String year,
-                                        @RequestParam String cat_no,
-                                        @RequestParam String page_no)
-            throws IOException, ExecutionException, InterruptedException, NumberFormatException, DiscogsAPIException {
-        if (token.isEmpty() || secret.isEmpty()) {
+    @PostMapping("/search")
+    public ResponseEntity<?> requestSearch(@RequestBody SearchRequest request)
+            throws IOException, ExecutionException, InterruptedException, DiscogsAPIException {
+        if (request.token.isEmpty() || request.secret.isEmpty()) {
             return ResponseEntity
                     .badRequest()
                     .body("Empty token or secret");
         }
-        int page = Integer.parseInt(page_no);
-        String response = discogsService.albumsSearch(token, secret, album, artist, year, cat_no, page);
+        String response = discogsService.albumsSearch(request.token, request.secret,
+                request.album, request.artist,
+                request.year, request.catNo, request.pageNo);
         return  ResponseEntity
                 .ok(response);
     } // requestSearch()
 
-    @GetMapping("/pricing")
-    public ResponseEntity<?> requestPricing(@RequestParam String token,
-                                 @RequestParam String secret,
-                                 @RequestParam String id)
-            throws IOException, ExecutionException, InterruptedException, NumberFormatException, DiscogsAPIException {
-        int convertedId = Integer.parseInt(id);
-        String response = discogsService.pricingSearch(token, secret, convertedId);
+    @PostMapping("/pricing")
+    public ResponseEntity<?> requestPricing(@RequestBody PricingRequest request)
+            throws IOException, ExecutionException, InterruptedException, DiscogsAPIException {
+        String response = discogsService.pricingSearch(request.token, request.secret, request.id);
         return ResponseEntity
                 .ok(response);
     } // requestPricing()
