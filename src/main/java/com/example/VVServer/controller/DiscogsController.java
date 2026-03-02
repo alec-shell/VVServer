@@ -21,7 +21,7 @@ public class DiscogsController {
     } // constructor
 
     @PostMapping("/search")
-    public ResponseEntity<?> requestSearch(@RequestBody SearchRequest request)
+    public ResponseEntity<?> postSearch(@RequestBody SearchRequest request)
             throws IOException, ExecutionException, InterruptedException, DiscogsAPIException {
         if (request.token.isEmpty() || request.secret.isEmpty()) {
             return ResponseEntity
@@ -36,11 +36,11 @@ public class DiscogsController {
     } // requestSearch()
 
     @PostMapping("/pricing")
-    public ResponseEntity<?> requestPricing(@RequestBody PricingRequest request)
+    public ResponseEntity<?> postPricing(@RequestBody PricingRequest request)
             throws IOException, ExecutionException, InterruptedException, DiscogsAPIException {
         String response = discogsService.pricingSearch(request.token, request.secret, request.id);
         return ResponseEntity
                 .ok(response);
-    } // requestPricing()
+    } // postPricing()
 
 } // DiscogsController class

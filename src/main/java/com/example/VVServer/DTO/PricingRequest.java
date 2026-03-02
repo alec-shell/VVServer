@@ -11,6 +11,6 @@ public class PricingRequest {
         this.id = id;
         this.token = token;
         this.secret = secret;
-    }
+    } // constructor
 
 } // PricingRequest class
