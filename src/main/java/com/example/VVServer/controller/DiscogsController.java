@@ -2,6 +2,7 @@ package com.example.VVServer.controller;
 
 import com.example.VVServer.DTO.PricingRequest;
 import com.example.VVServer.DTO.SearchRequest;
+import com.example.VVServer.DTO.URLRequest;
 import com.example.VVServer.Exception.DiscogsAPIException;
 import com.example.VVServer.service.DiscogsService;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +15,7 @@ import java.util.concurrent.ExecutionException;
 @RequestMapping("/discogs")
 public class DiscogsController {
 
-    private DiscogsService discogsService;
+    private final DiscogsService discogsService;
 
     public DiscogsController(DiscogsService discogsService) {
         this.discogsService = discogsService;
@@ -42,5 +43,18 @@ public class DiscogsController {
         return ResponseEntity
                 .ok(response);
     } // postPricing()
+
+    @PostMapping("/identity")
+    public ResponseEntity<?> postIDRequest(@RequestBody URLRequest request)
+            throws IOException, ExecutionException, InterruptedException {
+        if (request.token.isEmpty() || request.secret.isEmpty()) {
+            return ResponseEntity
+                    .badRequest()
+                    .body("Empty token or secret");
+        }
+        String response = discogsService.verifyID(request.token, request.secret);
+        return ResponseEntity
+                .ok(response);
+    } // postIDRequest()
 
 } // DiscogsController class

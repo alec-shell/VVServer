@@ -1,7 +1,7 @@
 package com.example.VVServer.controller;
 
 import com.example.VVServer.DTO.AuthTokenRequest;
-import com.example.VVServer.DTO.VerifierURLRequest;
+import com.example.VVServer.DTO.URLRequest;
 import com.example.VVServer.oauth.DiscogsAuthorization;
 import com.github.scribejava.core.model.OAuth1AccessToken;
 import com.github.scribejava.core.model.OAuth1RequestToken;
@@ -18,7 +18,7 @@ public class AuthorizationController {
 
     public AuthorizationController(DiscogsAuthorization discogsAuth) {
         this.discogsAuth = discogsAuth;
-    }
+    } // constructor
 
     @GetMapping("/r-tkn")
     public Map<String, String> getRequestToken() {
@@ -30,7 +30,7 @@ public class AuthorizationController {
     } // getRequestToken()
 
     @PostMapping("/url")
-    public Map<String, String> postVerifierURL(@RequestBody VerifierURLRequest request) {
+    public Map<String, String> postVerifierURL(@RequestBody URLRequest request) {
         OAuth1RequestToken requestToken = new OAuth1RequestToken(request.token, request.secret);
         String url = discogsAuth.getService().getAuthorizationUrl(requestToken);
         Map<String,String> components = new HashMap<>();
@@ -48,4 +48,4 @@ public class AuthorizationController {
         return components;
     } // postAuthorizationToken()
 
-} // DiscogsController client
+} // DiscogsController class

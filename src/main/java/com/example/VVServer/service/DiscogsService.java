@@ -41,4 +41,13 @@ public class DiscogsService {
         return response.getBody();
     } // pricingSearch()
 
+    public String verifyID(String token, String secret)
+            throws IOException, ExecutionException, InterruptedException {
+        Response response = discogsClient.getIdentity(new OAuth1AccessToken(token, secret));
+        if (response.getCode() >= 400) {
+            throw new DiscogsAPIException(response.getCode(), response.getMessage(), response.getBody());
+        }
+        return response.getBody();
+    } // verifyID()
+
 } // DiscogsService class

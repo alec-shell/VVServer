@@ -24,10 +24,10 @@ public class DiscogsClient {
         StringBuilder query = new StringBuilder();
         query.append("https://api.discogs.com/database/search?format=Vinyl&page=");
         query.append(pageNo);
-        if  (!album.isEmpty()) query.append("&release_title=").append(album.strip().replace(" ", "+"));
-        if (!artist.isEmpty()) query.append("&artist=").append(artist.strip().replace(" ", "+"));
-        if (!year.isEmpty()) query.append("&year=").append(year.strip());
-        if (!catNo.isEmpty()) query.append("&catno=").append(catNo.strip().replace(" ", "+"));
+        if (album != null) query.append("&release_title=").append(album.strip().replace(" ", "+"));
+        if (artist != null) query.append("&artist=").append(artist.strip().replace(" ", "+"));
+        if (year != null) query.append("&year=").append(year.strip());
+        if (catNo != null) query.append("&catno=").append(catNo.strip().replace(" ", "+"));
 
         OAuthRequest request =  new OAuthRequest(Verb.GET, query.toString());
         discogsAuth.getService().signRequest(token, request);
@@ -43,5 +43,12 @@ public class DiscogsClient {
         discogsAuth.getService().signRequest(token, request);
         return discogsAuth.getService().execute(request);
     } // getPriceSuggestions()
+
+    public Response getIdentity(OAuth1AccessToken token) throws IOException, ExecutionException, InterruptedException {
+        String queryUrl = "https://api.discogs.com/oauth/identity";
+        OAuthRequest request =  new OAuthRequest(Verb.GET, queryUrl);
+        discogsAuth.getService().signRequest(token, request);
+        return discogsAuth.getService().execute(request);
+    } // getIdentity()
 
 } // DiscogsClient class
