@@ -5,3 +5,5 @@ This is the back-end REST server for the VintageVinyl application, built on the 
     - OAuth authentication
     - Client requests
     - API responses
+
+* Link to VintageVinyl repo: https://github.com/alec-shell/VintageVinylTracker
